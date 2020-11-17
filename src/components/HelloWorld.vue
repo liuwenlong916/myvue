@@ -1,20 +1,20 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <formExp></formExp>
+    <router-link to="/Home">home</router-link>
+    <router-link to="/Detail">detail</router-link>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import formExp from "./form";
+import router from "../router/index";
 export default {
   name: "HelloWorld",
   props: {
     msg: String,
   },
-  components: {
-    formExp,
-  },
+  router,
 };
 </script>
 
