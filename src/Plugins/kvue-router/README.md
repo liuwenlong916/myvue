@@ -6,10 +6,10 @@
 
     TODO
     1.install, 把router.js挂载到vue实例上$router
-    2.监听url变化
+    2.监听url变化，监听方法需要bind(this)，
     3.生成url对应component集合对象。
     4.遍历routes数组，生成path对应component对象
-    5.Vue.util.defineReactive(this,current,'') 定义响应式数据
+    5.定义响应式数据Vue.util.defineReactive(this,current,'') ，也可以用new Vue的方式
 
 # 2.install 方法(插件必须，使用插件 Vue.use())
 
