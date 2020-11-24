@@ -1,10 +1,10 @@
 let _Vue;
-
+//TODO 实现嵌套路由
 class VueRouter {
   constructor(options) {
     this.routeMap = {};
     this.$options = options;
-    this.$options.routes.forEach((item) => {
+    this.$options.routes.forEach(item => {
       this.routeMap[item.path.toLowerCase()] = item.component;
     });
 
@@ -50,7 +50,7 @@ VueRouter.install = function(Vue) {
             href: "#" + this.to,
           },
         },
-        this.$slots.default
+        this.$slots.default,
       );
     },
   });
