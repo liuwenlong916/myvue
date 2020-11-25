@@ -1,4 +1,5 @@
 let _Vue;
+//TODO 实现getter
 class store {
   constructor(options) {
     //响应式state
