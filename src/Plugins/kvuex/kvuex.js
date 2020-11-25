@@ -11,7 +11,7 @@ class store {
       },
     });
     this._mutations = options.mutations;
-    this._actions = optins.actions;
+    this._actions = optins.actions;//actions内部调用commit 外层包裹异步，可以返回一个promise
 
     //为啥bind：dispatch异步时，this指向改变，手动绑定this，使用箭头函数也可以
     //bind，call apply区别
@@ -40,6 +40,8 @@ class store {
           console.log('unknow action');
           return;
       }
+      //action可以返回一个promise ，所以区别commit需要返回执行结果
+      //dispatch().then(()=>{})
       return fn(this, payload);
   }
   get state() {

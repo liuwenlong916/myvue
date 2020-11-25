@@ -1,3 +1,6 @@
+import kVueLink from "./krouter-link";
+import kVueView from "./krouter-view";
+
 let _Vue;
 
 class VueRouter {
@@ -34,39 +37,9 @@ VueRouter.install = function(Vue) {
     },
   });
   //2.router-link全局组件
-  Vue.component("router-link", {
-    props: {
-      to: {
-        type: String,
-        require: true,
-      },
-    },
-    render(h) {
-      // console.log(this.$router);
-      return h(
-        "a",
-        {
-          attrs: {
-            href: "#" + this.to,
-          },
-        },
-        this.$slots.default
-      );
-    },
-  });
+  Vue.component("router-link", kVueLink);
   //3.router-view
-  Vue.component("router-view", {
-    render(h) {
-      //当前this指向当前实例(router-view)
-      //mixin使所有vue实例都有$router;
-      const { routeMap, current } = this.$router; //VueRouter实例。
-
-      //使用$parent造成耦合。
-      // console.log(this.$parent.$options.router === this.$router);//true
-      const component = routeMap[current] ? routeMap[current] : null;
-      return h(component);
-    },
-  });
+  Vue.component("router-view", kVueView);
 };
 
 export default VueRouter;

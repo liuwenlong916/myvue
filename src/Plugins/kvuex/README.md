@@ -18,9 +18,13 @@
 
 ## 3.actions 异步操作
 
+    实际调用mutations
+
 ## 4.store 容器，包含以上所有
 
 ## getter
+
+    类似计算属性
 
 ## commite dispatch 区别
 
