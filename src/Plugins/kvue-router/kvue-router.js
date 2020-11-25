@@ -7,7 +7,7 @@ class VueRouter {
   constructor(options) {
     this.routeMap = {};
     this.$options = options;
-    this.$options.routes.forEach(item => {
+    this.$options.routes.forEach((item) => {
       this.routeMap[item.path.toLowerCase()] = item.component;
     });
 
@@ -37,30 +37,7 @@ VueRouter.install = function(Vue) {
     },
   });
   //2.router-link全局组件
-<<<<<<< HEAD
   Vue.component("router-link", kVueLink);
-=======
-  Vue.component("router-link", {
-    props: {
-      to: {
-        type: String,
-        require: true,
-      },
-    },
-    render(h) {
-      // console.log(this.$router);
-      return h(
-        "a",
-        {
-          attrs: {
-            href: "#" + this.to,
-          },
-        },
-        this.$slots.default,
-      );
-    },
-  });
->>>>>>> 7062b247208d344c0170ffe7aa11ccdb6c6b021e
   //3.router-view
   Vue.component("router-view", kVueView);
 };
