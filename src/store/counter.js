@@ -1,11 +1,5 @@
-import Vue from "vue";
-// import Vuex from "vuex";
-import Vuex from "../Plugins/kvuex/kvuex";
-// import counter from "./counter";
-
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default {
+  // namespaced: true, //调用dispatch/action 需要完整路径counter/add
   state: {
     counter: 1,
   },
@@ -28,8 +22,4 @@ export default new Vuex.Store({
       return state.counter * 2;
     },
   },
-
-  // modules: {
-  //   counter,
-  // },
-});
+};

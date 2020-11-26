@@ -5,11 +5,11 @@ let _Vue;
 //TODO 实现嵌套路由
 class VueRouter {
   constructor(options) {
-    this.routeMap = {};
     this.$options = options;
-    this.$options.routes.forEach((item) => {
-      this.routeMap[item.path.toLowerCase()] = item.component;
-    });
+    // this.routeMap = {};
+    // this.$options.routes.forEach((item) => {
+    //   this.routeMap[item.path.toLowerCase()] = item.component;
+    // });
 
     //定义响应的current，改变后更新view/
     //区分大小写
@@ -17,9 +17,33 @@ class VueRouter {
     _Vue.util.defineReactive(this, "current", initial);
     //bind this否则onHashChanged 里this指向widnow
     window.addEventListener("hashchange", this.onHashChanged.bind(this));
+    this.matched = [];
+    this.match(this.$options.routes);
   }
   onHashChanged() {
     this.current = window.location.hash.slice(1).toLowerCase();
+  }
+
+  match(routes) {
+    routes = routes || this.$options.routes;
+    console.log(routes);
+    // 递归遍历
+    for (const route of routes) {
+      console.log("for");
+      if (route.path === "/" && this.current === "/") {
+        this.matched.push(route);
+        return;
+      }
+      // /about/info
+      if (route.path !== "/" && this.current.indexOf(route.path) != -1) {
+        console.log("home");
+        this.matched.push(route);
+        if (route.children) {
+          this.match(route.children);
+        }
+        return;
+      }
+    }
   }
 }
 
