@@ -1,5 +1,7 @@
 let _Vue;
 //TODO 实现module
+//1, state 添加子对象
+//mutation/action/getters 直接添加
 class Store {
   constructor(options) {
     //响应式state
@@ -13,7 +15,6 @@ class Store {
     });
     this._mutations = options.mutations;
     this._actions = options.actions; //actions内部调用commit 外层包裹异步，可以返回一个promise
-
     //为啥bind：dispatch异步时，this指向改变，手动绑定this，使用箭头函数也可以
     //bind，call apply区别
     //call,apply 立即指向，bind返回方法体
@@ -23,13 +24,45 @@ class Store {
     this.getters = {};
     //遍历options.getters往getters里写属性，只有get。
     // Object.defineProperty劫持 get set
-    Object.keys(options.getters).forEach((key) => {
-      Object.defineProperty(this.getters, key, {
-        get: () => {
-          return options.getters[key](this.state);
-        },
+    if (options.getters) {
+      Object.keys(options.getters).forEach((key) => {
+        Object.defineProperty(this.getters, key, {
+          get: () => {
+            return options.getters[key](this.state);
+          },
+        });
       });
-    });
+    }
+
+    if (options.modules) {
+      Object.keys(options.modules).forEach((key) => {
+        this.state[key] = options.modules[key].state;
+        // Object.defineProperty(this.state, key, {
+        //   get: () => {
+        //     return options.modules[key].state;
+        //   },
+        //   set:()=>{
+
+        //   }
+        // });
+        this._mutations = {
+          ...this._mutations,
+          ...options.modules[key].mutations,
+        };
+        this._actions = {
+          ...this._actions,
+          ...options.modules[key].actions,
+        };
+
+        Object.keys(options.modules[key].getters).forEach((k) => {
+          Object.defineProperty(this.getters, k, {
+            get: () => {
+              return options.modules[key].getters[k](this.state);
+            },
+          });
+        });
+      });
+    }
   }
 
   //调用mutations
@@ -54,7 +87,7 @@ class Store {
     return fn(this, payload);
   }
   get state() {
-    return this._vm._data.$$state;
+    return this._vm._data.$$state ? this._vm._data.$$state : {};
   }
   set state(s) {
     console.error("please use replaceState to reset state");
