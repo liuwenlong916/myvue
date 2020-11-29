@@ -13,15 +13,19 @@ class VueRouter {
 
     //定义响应的current，改变后更新view/
     //区分大小写
-    const initial = window.location.hash.slice(1).toLowerCase() || "/";
-    _Vue.util.defineReactive(this, "current", initial);
+    // const initial = window.location.hash.slice(1).toLowerCase() || "/";
+    // _Vue.util.defineReactive(this, "current", initial);
     //bind this否则onHashChanged 里this指向widnow
     window.addEventListener("hashchange", this.onHashChanged.bind(this));
-    this.matched = [];
-    this.match(this.$options.routes);
+
+    this.current = window.location.hash.slice(1) || "/";
+    _Vue.util.defineReactive(this, "matched", []);
+    this.match();
   }
   onHashChanged() {
     this.current = window.location.hash.slice(1).toLowerCase();
+    this.match = [];
+    this.match();
   }
 
   match(routes) {
@@ -36,7 +40,6 @@ class VueRouter {
       }
       // /about/info
       if (route.path !== "/" && this.current.indexOf(route.path) != -1) {
-        console.log("home");
         this.matched.push(route);
         if (route.children) {
           this.match(route.children);

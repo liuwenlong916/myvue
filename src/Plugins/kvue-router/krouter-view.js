@@ -12,25 +12,27 @@
 // };
 export default {
   render(h) {
-    // this.$vnode.data.routerView = true;
-    // let depth = 0;
-    // let parent = this.$parent;
+    this.$vnode.data.routerView = true;
+    let depth = 0;
+    let parent = this.$parent;
 
-    // while (parent) {
-    //   const vnodeData = parent.$vnode && parent.$vnode.data;
-    //   if (vnodeData) {
-    //     if (vnodeData.routerView) {
-    //       // 说明当前parent是一个router-view
-    //       depth++;
-    //     }
-    //   }
+    while (parent) {
+      const vnodeData = parent.$vnode && parent.$vnode.data;
+      if (vnodeData) {
+        if (vnodeData.routerView) {
+          // 说明当前parent是一个router-view
+          depth++; //因为嵌套无限循环
+        }
+      }
 
-    //   parent = parent.$parent;
-    // }
+      parent = parent.$parent;
+    }
     let component = null;
-    const { matched, current } = this.$router; //VueRouter实例。
-    console.log(matched, current);
-    console.log(this.$router);
+    // const { matched, current } = this.$router; //VueRouter实例。
+    const route = this.$router.matched[depth];
+    if (route) {
+      component = route.component;
+    }
     return h(component);
   },
 };
