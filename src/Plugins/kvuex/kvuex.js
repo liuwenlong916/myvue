@@ -6,12 +6,16 @@ class Store {
   constructor(options) {
     //响应式state
     // this._state = options.state;
+
+    this.computed = {};
+    this.getters = {};
     this._vm = new _Vue({
       data() {
         return {
           $$state: options.state,
         };
       },
+      computed,
     });
     this._mutations = options.mutations;
     this._actions = options.actions; //actions内部调用commit 外层包裹异步，可以返回一个promise
@@ -21,21 +25,26 @@ class Store {
     //apply参数是数组形式。
     this.commit = this.commit.bind(this);
     this.dispatch = this.dispatch.bind(this);
+    this._wrapppedGetters = options.getters;
     this.getters = {};
     //遍历options.getters往getters里写属性，只有get。
     // Object.defineProperty劫持 get set
+
+    const store = this;
     if (options.getters) {
-      Object.keys(options.getters).forEach((key) => {
-        Object.defineProperty(this.getters, key, {
-          get: () => {
-            return options.getters[key](this.state);
-          },
+      Object.keys(this._wrapppedGetters).forEach(key => {
+        const fn = store._wrapppedGetters[key];
+        this.computed[key] = function() {
+          return fn(store.state);
+        };
+        Object.defineProperty(store.getters, key, {
+          get: () => store._vm[key],
         });
       });
     }
 
     if (options.modules) {
-      Object.keys(options.modules).forEach((key) => {
+      Object.keys(options.modules).forEach(key => {
         this.state[key] = options.modules[key].state;
         // Object.defineProperty(this.state, key, {
         //   get: () => {
@@ -54,7 +63,7 @@ class Store {
           ...options.modules[key].actions,
         };
 
-        Object.keys(options.modules[key].getters).forEach((k) => {
+        Object.keys(options.modules[key].getters).forEach(k => {
           Object.defineProperty(this.getters, k, {
             get: () => {
               return options.modules[key].getters[k](this.state);
