@@ -11,20 +11,23 @@
 //   },
 // };
 export default {
+  //嵌套路由 由于 router-view多次使用，该方法多次执行，matched包含从上到下的所有route，
+  //循环判断routerView，为真depth++，获取需要渲染的route
+  //
   render(h) {
     this.$vnode.data.routerView = true;
     let depth = 0;
     let parent = this.$parent;
-
+    //每次都需要从当前route-view的父节点循环到根节点，有没有必要优化？
+    //网上循环直到父节点为null。
     while (parent) {
       const vnodeData = parent.$vnode && parent.$vnode.data;
       if (vnodeData) {
         if (vnodeData.routerView) {
           // 说明当前parent是一个router-view
-          depth++; //因为嵌套无限循环
+          depth++;
         }
       }
-
       parent = parent.$parent;
     }
     let component = null;

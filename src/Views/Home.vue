@@ -2,6 +2,8 @@
   <div>
     home
     {{ name }}
+    <router-link to="/Home/About">About</router-link>
+    <router-view></router-view>
   </div>
 </template>
 

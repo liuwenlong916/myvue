@@ -19,21 +19,20 @@ class VueRouter {
     window.addEventListener("hashchange", this.onHashChanged.bind(this));
 
     this.current = window.location.hash.slice(1) || "/";
+    //当前matched只包含需要显示的route,如 地址是/Home/About，只包含 /Home和Home/About两个route.
     _Vue.util.defineReactive(this, "matched", []);
     this.match();
   }
   onHashChanged() {
-    this.current = window.location.hash.slice(1).toLowerCase();
-    this.match = [];
+    this.current = window.location.hash.slice(1);
+    this.matched = [];
     this.match();
   }
 
   match(routes) {
     routes = routes || this.$options.routes;
-    console.log(routes);
     // 递归遍历
     for (const route of routes) {
-      console.log("for");
       if (route.path === "/" && this.current === "/") {
         this.matched.push(route);
         return;

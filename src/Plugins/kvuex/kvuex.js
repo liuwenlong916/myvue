@@ -7,8 +7,7 @@ class Store {
     //响应式state
     // this._state = options.state;
 
-    this.computed = {};
-    this.getters = {};
+    // this.getters = {};
     this._vm = new _Vue({
       data() {
         return {
@@ -23,18 +22,22 @@ class Store {
     //bind，call apply区别
     //call,apply 立即指向，bind返回方法体
     //apply参数是数组形式。
+
+    // this.commit = this.commit; //可以
+    // this.dispatch = this.dispatch; //不可以
     this.commit = this.commit.bind(this);
     this.dispatch = this.dispatch.bind(this);
     this._wrapppedGetters = options.getters;
-    this.getters = {};
     //遍历options.getters往getters里写属性，只有get。
     // Object.defineProperty劫持 get set
 
+    const computed = {};
+    this.getters = {};
     const store = this;
     if (options.getters) {
-      Object.keys(this._wrapppedGetters).forEach(key => {
+      Object.keys(this._wrapppedGetters).forEach((key) => {
         const fn = store._wrapppedGetters[key];
-        this.computed[key] = function() {
+        computed[key] = function() {
           return fn(store.state);
         };
         Object.defineProperty(store.getters, key, {
@@ -44,7 +47,7 @@ class Store {
     }
 
     if (options.modules) {
-      Object.keys(options.modules).forEach(key => {
+      Object.keys(options.modules).forEach((key) => {
         this.state[key] = options.modules[key].state;
         // Object.defineProperty(this.state, key, {
         //   get: () => {
@@ -63,7 +66,7 @@ class Store {
           ...options.modules[key].actions,
         };
 
-        Object.keys(options.modules[key].getters).forEach(k => {
+        Object.keys(options.modules[key].getters).forEach((k) => {
           Object.defineProperty(this.getters, k, {
             get: () => {
               return options.modules[key].getters[k](this.state);
