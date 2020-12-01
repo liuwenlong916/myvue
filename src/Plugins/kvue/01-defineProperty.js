@@ -6,7 +6,7 @@ function defineReactive(obj, key, val) {
   Object.defineProperty(obj, key, {
     get() {
       console.log("get", key);
-      return val;
+      return val; //val在内存中，所以更新后被保存，再次获取时，是最新值
     },
     set(newVal) {
       if (val !== newVal) {
