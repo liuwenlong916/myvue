@@ -4,7 +4,7 @@ class Compile {
     this.$el = document.querySelector(el);
     this.$vm = vm;
 
-    //解析模板'
+    //解析模板
     this.compile(this.$el);
   }
 
@@ -12,7 +12,6 @@ class Compile {
   compile(el) {
     el.childNodes.forEach((node) => {
       if (node.nodeType === 1) {
-        console.log("element");
       } else if (this.isInter(node)) {
         // console.log("编译文本");
         this.compileText(node);

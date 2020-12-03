@@ -1,5 +1,4 @@
 //与视图显示属性一一对应
-let watchers = [];
 
 class Watcher {
   constructor(vm, key, updateFn) {
@@ -12,7 +11,9 @@ class Watcher {
     Dep.target = null;
   }
   update() {
-    this.updateFn.call(this.vm, this.vm[this.key]);
+    //内部逻辑复杂后需要this指向vue实例，当前实例可以不更改。
+    //this.updateFn.call(this.vm, this.vm[this.key]);
+    this.updateFn(this.vm[this.key]);
   }
 }
 

@@ -34,7 +34,8 @@
 1. 根据模板语法解析为浏览器识别的标签属性等。
 2. 文本解析
 3. 指令解析:v-text,v-html, v-model, @click 等
-4. 生成视图元素标签与 Watcher 实例对应关系，。
+4. 生成视图元素标签与 Watcher 实例对应关系,
+5. 更新视图函数(dom 操作)放入 Watcher 实例中，vue2.0 使用虚拟 dom。
 
 ## ObServer
 

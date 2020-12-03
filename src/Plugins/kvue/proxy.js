@@ -1,6 +1,7 @@
 function proxy(vm, key) {
   Object.keys(vm[key]).forEach((k) => {
     // vm[k] = vm[key][k];
+    //闭包
     Object.defineProperty(vm, k, {
       get() {
         return vm[key][k];
