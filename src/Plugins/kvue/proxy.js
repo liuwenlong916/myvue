@@ -1,5 +1,5 @@
-export default function Proxy(vm, key) {
-  Object.key(vm[key]).forEach(k => {
+function proxy(vm, key) {
+  Object.keys(vm[key]).forEach((k) => {
     // vm[k] = vm[key][k];
     Object.defineProperty(vm, k, {
       get() {
@@ -11,3 +11,4 @@ export default function Proxy(vm, key) {
     });
   });
 }
+// export default proxy

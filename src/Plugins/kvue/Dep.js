@@ -1,7 +1,17 @@
 //与属性一一对应，管理多个Watcher
-export default class Dep {
-  constructor() {}
+class Dep {
+  constructor() {
+    this.watchers = [];
+  }
 
+  addWatcher(watcher) {
+    this.watchers.push(watcher);
+  }
   //批量更新视图(Watcher集合)
-  notify() {}
+  notify() {
+    this.watchers.forEach((watcher) => {
+      watcher.update();
+    });
+  }
 }
+// export default Dep;

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      {{counter}}
+    </div>
+    <script src="kvue.js"></script>
+    <script src="ObServer.js"></script>
+    <script src="proxy.js"></script>
+    <script src="Compile.js"></script>
+    <script src="Watcher.js"></script>
+    <script src="Dep.js"></script>
+
+    <script type="module">
+      var app = new KVue({
+        el: "#app",
+        // data() {
+        //   return {
+        //     counter: 1,
+        //   };
+        // },
+        data: {
+          counter: 1,
+        },
+      });
+
+      setInterval(() => {
+        app.counter++;
+      }, 1000);
+    </script>
+  </body>
+</html>
