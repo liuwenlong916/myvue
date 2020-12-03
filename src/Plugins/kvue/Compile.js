@@ -10,7 +10,7 @@ class Compile {
 
   //解析
   compile(el) {
-    el.childNodes.forEach((node) => {
+    el.childNodes.forEach(node => {
       if (node.nodeType === 1) {
       } else if (this.isInter(node)) {
         // console.log("编译文本");
