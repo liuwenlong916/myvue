@@ -1,35 +1,30 @@
 import Vue from "vue";
 import Notice from "./Notice.vue";
-
-function create(Comp, props) {
+function create(comp, props) {
   //方式1
   //   const Ctor = Vue.extend(Comp); //返回构造函数
   //   const vm = new Ctor({ propsData: props }); //
   //   vm.$mount();
-  //方式2
+  //复习第二节课开始内容
+  //vue实例
   const vm = new Vue({
     render(h) {
-      //createElement简写
-      return h(Comp, { props });
+      return h(comp, { props });
     },
   }).$mount();
-  console.log(vm);
   document.body.appendChild(vm.$el);
 
-  // 3.获取组件实例
-  const comp = vm.$children[0];
-  //Notice调用，定时
-  comp.remove = () => {
+  //区分组件实例和vue实例
+  const com = vm.$children[0]; //组件实例
+  com.remove = () => {
     document.body.removeChild(vm.$el);
     vm.$destroy();
   };
-  return comp;
+  return com;
 }
-
-// export default create;
 export default {
   install(Vue) {
-    Vue.prototype.$notice = function(options) {
+    Vue.prototype.$Notice = function(options) {
       return create(Notice, options);
     };
   },

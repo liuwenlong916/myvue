@@ -3,6 +3,7 @@
     <kform :models="models" :rules="rules" ref="myform">
       <kitem label="用户名" prop="username">
         <kinput v-model="models.username"></kinput>
+        <!-- <kinput :value="models.username" @input="onInput"></kinput> -->
       </kitem>
       <kitem label="密码" prop="password">
         <kinput type="password" v-model="models.password"></kinput>
@@ -56,6 +57,10 @@ export default {
         // }
       });
     },
+
+    // onInput(val) {
+    //   this.models.username = val;
+    // },
   },
   components: {
     kinput,

@@ -2,7 +2,7 @@
 const orginalProto = Array.prototype;
 //备份，修改备份
 const arrayProto = Object.create(orginalProto);
-["push", "pop", "shift", "unshift"].forEach(method => {
+["push", "pop", "shift", "unshift"].forEach((method) => {
   arrayProto[method] = function() {
     //原始操作
     orginalProto[method].apply(this, arguments);
@@ -43,7 +43,7 @@ function observe(obj) {
       observe(obj[i]);
     }
   }
-  Object.keys(obj).forEach(key => {
+  Object.keys(obj).forEach((key) => {
     defineReactive(obj, key, obj[key]);
   });
 }

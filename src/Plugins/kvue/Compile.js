@@ -10,8 +10,11 @@ class Compile {
 
   //解析
   compile(el) {
-    el.childNodes.forEach(node => {
+    //chilren和childNodes区别：childNode可以获取文本
+    //NodeType == 1 >element
+    el.childNodes.forEach((node) => {
       if (node.nodeType === 1) {
+        this.compileElement(node);
       } else if (this.isInter(node)) {
         // console.log("编译文本");
         this.compileText(node);
@@ -22,8 +25,6 @@ class Compile {
         this.compile(node);
       }
     });
-    //chilren和childNodes区别：childNode可以获取文本
-    //NodeType == 1 >element
   }
 
   //编译方法。模板转视图。
@@ -37,6 +38,19 @@ class Compile {
   //编译标签元素属性 v-text v-html v-model @click等。
   compileElement(node) {
     //判断不同指令执行相应方法，更新
+    const attrs = node.attributes; //类数组
+    Array.from(attrs).forEach((attr) => {
+      const attrName = attr.name;
+      const exp = attr.value;
+      if (this.isDirective(attrName)) {
+        // 方法体内this指向undefind?获取方法是需要bind this
+        const fn = this[attrName.substring(2)].bind(this);
+        fn && fn(node, exp);
+        // const dir = attrName.substring(2); // xxx
+        // // 指令实际操作方法 text()/html();
+        // this[dir] && this[dir](node, exp);//内部this调用不需要bind this
+      }
+    });
   }
 
   text(node, exp) {
