@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
   <div>
     <input :type="type" :value="value" @input="onInput" />
